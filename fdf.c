@@ -12,55 +12,51 @@
 
 #include "fdf.h"
 
-// int 		key_hook(int key_code, void *param)
-// {
-// 	printf("key code is: [%d]\n", key_code);
-// 	if (key_code == 53)
-// 		exit(0);
-// 	return (0);
-// }
-
-// int 		mouse_hook(int mouse_code, void *param)
-// {
-// 	printf("mose code is: [%d]\n", mouse_code);
-// 	return (0);
-// }
-
-// // int expose_hook(int expose_code, void *param)
-// // {
-// // 	printf("expose_hook is: [%d]\n", expose_code);
-// // 	return (0);
-// // }
-
-// // int loop_hook(int loop_code, void *param)⁄€‹
-// // {
-// // 	printf("loop_hook is: [%d]\n", loop_code);
-// // 	return (0);
-// // }
-// double					get_double(char *line)
-// {
-// 	char *tmp;
-
-// 	tmp = line;
-// 	while (*tmp != '\0')
-// 	{
-
-// 	}
-// }
+void				correct_center_cord(t_fdf_cord ***cord, int x_max, int y_max)
+{
+	int x;
+	int y;
+	int shift_x;
+	int shift_y;
+	static int i = 0;
+	
 
 
+	shift_x = x_max / 2;
+	shift_y = y_max / 2;
+	y = 0;
+	while (y < y_max)
+	{
+		x = 0;
+		while (x < x_max)
+		{
+			printf("-center--\ncord -- %d\n", ++i);
+
+			((cord)[y][x])->x -= (double)shift_x;
+			((cord)[y][x])->y -= (double)shift_y;
+			printf("%f\n", ((cord)[y][x])->x);
+			printf("%f\n", ((cord)[y][x])->y);
+			printf("%f\n------\n",((cord)[y][x])->z);
+			x++;
+		}
+		y++;
+	}
+}
 
 t_fdf_cord			*create_cords(int x, int y, char **buf)
 {
 	t_fdf_cord		*curr;
-	
-	curr = malloc(sizeof(t_fdf_cord));
-	curr->x = x;
-	curr->y = y;
-	// printf("*create_cords [%c]\n", **buf);
-	// printf("do atoi-- %p\n", buf);
-	curr->z = ft_atoi_shift_pointer(buf);
+	static int i = 0;
+	printf("-----\ncord -- %d\n", ++i);
+	if (!(curr = malloc(sizeof(t_fdf_cord))))
+		fdf_error("error");
+	curr->x = (double)x;
+	curr->y = (double)y;
+	printf("%f\n",curr->x);
+	printf("%f\n",curr->y);
+	curr->z = (double)ft_atoi_shift_pointer(buf);
 	// printf("posle  -- %p\n", buf);
+	printf("%f\n  ---\n",curr->z);
 	if (**buf == ',')
 	{
 		(*buf)++;
@@ -71,40 +67,42 @@ t_fdf_cord			*create_cords(int x, int y, char **buf)
 	return (curr);
 }
 
-void 				create_cords_array(t_fdf_cord ***cord, int res, char *buf)
+
+void 				create_cords_array(t_fdf_cord ****cord, int res, char *buf, int y_max)
 {
-	int 	i;
 	int 	x;
 	int 	y;
-
-	if (!(*cord = malloc(sizeof(t_fdf_cord **) * res)))
+	// printf("1[%p]\n", cord);
+	// printf("1[%p]\n", *cord);
+	if (!(*cord = malloc(sizeof(t_fdf_cord ***) * (y))))
 		fdf_error("error");
-	i = 0;
-	x = 0;
 	y = 0;
-	while (*buf != '\0')
+	while (y < y_max)
 	{
-		if (*buf != ' ' && *buf != '\n' && *buf != '\0') // && printf("while [%c]\n", *buf))
+		x = 0;
+		if (!((*cord)[y] = malloc(sizeof(t_fdf_cord **) * (res / y_max))))
+			fdf_error("error");
+		while (x < (res / y_max))
 		{	
-			// printf("do-----[%c] [%p]\n", *buf, &buf);
-			
-			(*cord)[i] = create_cords(x, y, &buf);
-			i++;
-			x++;
-			// printf("posle--[%c] [%p]\n", *buf, &buf);
-			// printf("posle   crea--%p\n\n\n\n", &buf);
-			// sleep(1);
-			// buf++;
+			if (*buf != ' ' && *buf != '\n' && *buf != '\0')
+			{
+				(*cord)[y][x] = create_cords(x, y, &buf);
+				printf("%f\n",(*cord)[y][x]->x);
+				printf("%f\n",(*cord)[y][x]->y);
+				printf("%f\n------\n",(*cord)[y][x]->z);
+				x++;
+			}	
+			buf++;
 		}
-		if (*buf == '\n')
-		{
-			// printf("------------------------\\n--------------------------------------\n");
-			y ++;
-			x = 0;
-		}
-		buf ++;
+		(*cord)[y][x] = NULL;
+		y++;
 	}
-
+	(*cord)[y] = NULL;
+	// printf("2[%p]\n", cord);
+	// printf("2[%p]\n", *cord);
+	// printf("2[%p]\n", **cord);
+	// printf("2[%p]\n", ***cord);
+	// correct_center_cord(cord, x , y);
 }
 
 static void					ft_validate(char *line, int *res)
@@ -154,7 +152,7 @@ static void					join_to_buf(char **buf, char **line)
 int						main(int ar, char **av)
 {
 	t_block		*block;
-	t_fdf_cord	**cord;
+	t_fdf_cord	***cord = NULL;
 	char		*line;
 	char		*buf = NULL;
 	int			fd;
@@ -175,39 +173,18 @@ int						main(int ar, char **av)
 	ft_printf("file was read:\n%s\n", buf);
 	ft_printf("was found %d cords\n", res);
 	// printf("srt--%p\n", &buf);
-	create_cords_array(&cord, res, buf);
+	
 
+
+	create_cords_array(&cord, res, buf, ft_chrcount(buf, '\n'));
+	// corect_center_cord(&cord, x_center, y_center);
+	printf("=================================\n");
 	// printf("[%c]--[%d]--[%c]\n", *buf, ft_atoi_shift_pointer(&buf), *buf);
 
+	correct_center_cord(cord, res / ft_chrcount(buf, '\n'), ft_chrcount(buf, '\n'));
 
 
-
-	// sleep(5000);
-
-
-	// block->mlx = mlx_init();
-	// block->win = mlx_new_window(block->mlx ,640, 480, "fdf");
-	// block->y = 50;
-	// while (block->y < 150)
-	// {
-	// 	block->x = 50;
-	// 	while (block->x < 150)
-	// 	{
-	// 		mlx_pixel_put(block->mlx, block->win, block->x, block->y, 0xFFFFFF);
-	// 		block->x++;
-	// 	}
-	// 	block->y++;
-	// }
-	// ft_printf("dick\n");
-
-	// // mlx_string_put(block->mlx, block->win, 200, 200, 0xffddff, "hello!\n");
-
-
-	// mlx_key_hook(block->win, key_hook, 0);
-	// mlx_mouse_hook(block->win, mouse_hook, 0);
-	// // mlx_expose_hook(block->win, expose_hook, 0);
-	// // mlx_loop_hook(block->win, loop_hook, 0);
-	// mlx_loop(block->mlx);
 	
+	printf("return (0)\n");
 	return (0);
 }

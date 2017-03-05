@@ -6,7 +6,7 @@
 #    By: ochayche <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/18 18:15:02 by ochayche          #+#    #+#              #
-#    Updated: 2017/01/18 18:15:03 by ochayche         ###   ########.fr        #
+#    Updated: 2017/03/05 22:47:28 by ochayche         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -47,10 +47,10 @@ re: fclean all
 r: all
 	./fdf test_1.fdf
 
-bag:
+bug:
 	gcc -g ./fdf.c ./usage.c ./fdf_error.c  -I minilibx_macos/libmlx.a libft/libft.a ft_printf/libftprintf.a
 
-debag: bag
+debug: bag
 	lldb -- a.out test_1.fdf
 
 # fdf.o: fdf.c

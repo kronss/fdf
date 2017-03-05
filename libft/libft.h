@@ -18,6 +18,9 @@
 # include <string.h>
 # define BUFF_SIZE 32
 
+
+# include <stdio.h>
+
 typedef struct		s_list
 {
 	void			*content;
