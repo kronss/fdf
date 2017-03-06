@@ -13,12 +13,15 @@
 GCC = gcc
 
 # F = -Wall -Wextra -Werror
+M = -lmlx -framework OpenGL -framework Appkit
 
 NAME = fdf
 
 OBJECT = ./fdf.o \
 	./usage.o \
-	./fdf_error.o 
+	./fdf_error.o \
+	./create_cords_array.o \
+	./print_map.o
 
 .PHONY: all clean fclean re
 
@@ -29,7 +32,7 @@ all: $(NAME)
 $(NAME): $(OBJECT)
 		@make -C libft/
 		@make -C ft_printf/
-		$(GCC) $(F) -lmlx -framework OpenGL -framework Appkit -o $(NAME) $(OBJECT) -I minilibx_macos/libmlx.a libft/libft.a ft_printf/libftprintf.a
+		$(GCC) $(F) $(M) -o $(NAME) $(OBJECT) -I minilibx_macos/libmlx.a libft/libft.a ft_printf/libftprintf.a
 
 
 clean:
@@ -50,7 +53,7 @@ r: all
 bug:
 	gcc -g ./fdf.c ./usage.c ./fdf_error.c  -I minilibx_macos/libmlx.a libft/libft.a ft_printf/libftprintf.a
 
-debug: bag
+debug: bug
 	lldb -- a.out test_1.fdf
 
 # fdf.o: fdf.c

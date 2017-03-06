@@ -42,28 +42,38 @@
 **		All the functions defined in the library miniLibX.
 */
 
-typedef	struct	s_block
-{
-	void	*mlx;
-	void	*win;
-	int		x;
-	int		y;
-
-
-}				t_block;
-
 typedef	struct	s_fdf_cord
 {
-	double	x;
-	double	y;
-	double	z;
-	int		color;
+	double		x;
+	double		y;
+	double		z;
+	int			color;
 }				t_fdf_cord;
+
+typedef	struct		s_block
+{
+	void			*mlx;
+	void			*win;
+
+
+
+	int				res;
+	int				y_max;
+	int				x_max;
+	t_fdf_cord 		**cord;
+	int				min_win_y;
+	int				min_win_x;
+}					t_block;
+
+
+
+
+
 
 void		ft_usage(char *argv);
 void		fdf_error(char *str);
-
-
+void		create_cords_array(t_block *block, int y, int x, char *buf);
+void		print_map(t_block *block);
 
 
 

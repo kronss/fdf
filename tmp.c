@@ -1,4 +1,5 @@
 #include <stdio.h>
+# include <math.h>
 
 	// int 		key_hook(int key_code, void *param)
 // {
@@ -75,5 +76,9 @@ int main(int argc, char const *argv[])
 {
 	printf("double:%lu\n", sizeof(double));
 	printf("float:%lu\n", sizeof(float));
+	double a = 4.4;
+	printf("%f\n", a);
+	printf("%f\n", roundf(a));
+
 	return 0;
 }
