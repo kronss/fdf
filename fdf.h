@@ -54,7 +54,11 @@ typedef	struct		s_block
 {
 	void			*mlx;
 	void			*win;
-
+	void			*img;
+	char 			*ptr;
+	int				bits_per_pixel;
+	int				size_line;
+	int				endian;
 
 
 	int				res;
@@ -64,6 +68,7 @@ typedef	struct		s_block
 	int				min_win_y;
 	int				min_win_x;
 	int				zoom;
+
 }					t_block;
 
 

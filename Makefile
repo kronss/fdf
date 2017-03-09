@@ -13,7 +13,7 @@
 GCC = gcc
 
 # F = -Wall -Wextra -Werror
-# M = -lmlx -framework OpenGL -framework Appkit
+M = -lmlx -framework OpenGL -framework Appkit
 
 NAME = fdf
 
