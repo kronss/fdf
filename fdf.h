@@ -63,6 +63,7 @@ typedef	struct		s_block
 	t_fdf_cord 		**cord;
 	int				min_win_y;
 	int				min_win_x;
+	int				zoom;
 }					t_block;
 
 

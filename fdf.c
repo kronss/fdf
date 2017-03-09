@@ -10,6 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+**	open file and reading it to buff[unsize]
+**	validate: count nbr in line[y0] === line[yn]
+**	initialization t_block and push date to t_block
+**	push cords to 2 lvl array struckt
+*/
+
 #include "fdf.h"
 
 static void					ft_validate(char *line, int *res)
@@ -31,7 +38,7 @@ static void					ft_validate(char *line, int *res)
 		check = (*res);
 	if (*res % check != 0)
 	{
-		ft_printf("map is not valid\n");
+		ft_printf("map is not valid =(\n");
 		exit(1);
 	}
 }
@@ -63,8 +70,9 @@ static void				ft_init_block(t_block *block, int y_max, int res)
 	block->y_max = y_max;
 	block->x_max = res / y_max;
 	block->cord = NULL;
-	block->min_win_y = (block->y_max * 30);
-	block->min_win_x = (block->x_max * 30);
+	block->zoom = 30;
+	block->min_win_y = (block->y_max * block->zoom) + 200;
+	block->min_win_x = (block->x_max * block->zoom) + 200;
 	// block->
 	// block->
 }
@@ -75,7 +83,7 @@ int						main(int ar, char **av)
 	char		*line;
 	char		*buf;
 	int			fd;
-	int 		res;
+	int			res;
 
 	line = NULL;
 	buf = NULL;
@@ -93,6 +101,6 @@ int						main(int ar, char **av)
 		fdf_error("error");
 	ft_init_block(&block, ft_chrcount(buf, '\n'), res);
 	create_cords_array(&block, 0, 0, buf);
-	print_map(&block);
+	// print_map(&block);
 	return (0);
 }

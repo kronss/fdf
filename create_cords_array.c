@@ -26,12 +26,11 @@ static void			create_cords(int x, int y, char **buf, t_block *block)
 		((*block).cord[y][x]).color = ft_atohex_shift_pointer(buf);
 	}
 	else
-		{
-			// printf("dick '0'\n");
-			((*block).cord[y][x]).color = 0;
-			// printf("dick '0'\n");
-
-		}
+	{
+		// printf("dick '0'\n");
+		((*block).cord[y][x]).color = 0;
+		// printf("dick '0'\n");
+	}
 	// 	printf("--------op---\n");
 	// printf("in y %.1f\n", ((*block).cord[y][x]).y);
 	// printf("in x %.1f\n", ((*block).cord[y][x]).x);

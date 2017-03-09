@@ -13,7 +13,7 @@
 GCC = gcc
 
 # F = -Wall -Wextra -Werror
-M = -lmlx -framework OpenGL -framework Appkit
+# M = -lmlx -framework OpenGL -framework Appkit
 
 NAME = fdf
 
@@ -54,9 +54,6 @@ bug:
 	gcc -g -lmlx -framework OpenGL -framework Appkit ./fdf.c ./usage.c ./fdf_error.c ./create_cords_array.c ./print_map.c -I minilibx_macos/libmlx.a libft/libft.a ft_printf/libftprintf.a
 debug: bug
 	lldb -- a.out test_1.fdf
-
-# fdf.o: fdf.c
-# 	$(GCC) $(F) -c fdf.c
 
 %.o: ./%.c
 	$(GCC) $(F) -o $@ -c $< -I ./
