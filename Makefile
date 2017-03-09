@@ -51,8 +51,7 @@ r: all
 	./fdf test_1.fdf
 
 bug:
-	gcc -g ./fdf.c ./usage.c ./fdf_error.c  -I minilibx_macos/libmlx.a libft/libft.a ft_printf/libftprintf.a
-
+	gcc -g -lmlx -framework OpenGL -framework Appkit ./fdf.c ./usage.c ./fdf_error.c ./create_cords_array.c ./print_map.c -I minilibx_macos/libmlx.a libft/libft.a ft_printf/libftprintf.a
 debug: bug
 	lldb -- a.out test_1.fdf
 
