@@ -47,15 +47,22 @@ typedef	struct	s_fdf_cord
 	double		x;
 	double		y;
 	double		z;
+	double		x_res;
+	double		y_res;
+	double		z_res;
 	int			color;
+	int			color_res;
 }				t_fdf_cord;
 
 typedef	struct		s_block
 {
 	void			*mlx;
 	void			*win;
+
+
 	void			*img;
 	char 			*ptr;
+	
 	int				bits_per_pixel;
 	int				size_line;
 	int				endian;
@@ -79,9 +86,14 @@ typedef	struct		s_block
 void		ft_usage(char *argv);
 void		fdf_error(char *str);
 void		create_cords_array(t_block *block, int y, int x, char *buf);
+void			create_map(t_block *block);
 void		print_map(t_block *block);
+void			create_img(t_block *block);
 
 
-
+void		turn_arround_y(t_block *block, double angl);
+void		turn_arround_x(t_block *block, double angl);
+void		turn_arround_z(t_block *block, double angl);
+void		reset_cord(t_block *block);
 
 #endif

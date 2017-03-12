@@ -72,6 +72,76 @@
 
 
 
+
+
+
+
+// void 	segment(int x0, int y0, int x1, int y1, int color)
+// void brazenheim_x(t_block *block, int y, int )
+// {
+// 	int j;
+//   int dx = ABS((block->cord)[y][x + 1].x - (block->cord)[y][x].x);
+//   int dy = ABS((block->cord)[y][x + 1].y - (block->cord)[y][x].y);
+//   int sx = (block->cord)[y][x + 1].x >= (block->cord)[y][x].x ? 1 : -1;
+//   int sy = (block->cord)[y][x + 1].y >= (block->cord)[y][x].y ? 1 : -1;
+  
+//   if (dy <= dx)
+//   {
+//     int d = (dy << 1) - dx;
+//     int d1 = dy << 1;
+//     int d2 = (dy - dx) << 1;
+
+//     j = (((block->cord)[y][x].x + 500) * 4) + (((block->cord)[y][x].y + 500) * 1000 * 4);
+//     block->ptr[j] = 255U;			// blue
+//     block->ptr[j + 1] = 255U;		// green
+//     block->ptr[j + 2] = 255U;		// red
+    
+//     //putpixel((block->cord)[y][x].x, (block->cord)[y][x].y, color);
+
+
+//     for(int x_cor = (block->cord)[y][x].x + sx, y_cor = (block->cord)[y][x].y, i = 1; i <= dx; i++, x_cor += sx)
+//     {
+//       if ( d >0)
+//       {
+//         d += d2;
+//         y += sy;
+//       }
+//       else
+//         d += d1;
+//       putpixel(x_cor, y, color);
+//     }
+//   }
+//   else
+//   {
+//     int d = (dx << 1) - dy;
+//     int d1 = dx << 1;
+//     int d2 = (dx - dy) << 1;
+    
+
+//      j = (((block->cord)[y][x].x + 500) * 4) + (((block->cord)[y][x].y + 500) * 1000 * 4);
+//     block->ptr[j] = 255U;			// blue
+//     block->ptr[j + 1] = 255U;		// green
+//     block->ptr[j + 2] = 255U;		// red
+
+//    putpixel((block->cord)[y][x].x, (block->cord)[y][x].y, color);
+  //   for(int y_cor = (block->cord)[y][x].y + sy, x = (block->cord)[y][x].x, i = 1; i <= dy; i++, y_cor += sy)
+  //   {
+  //     if ( d >0)
+  //     {
+  //       d += d2;
+  //       x += sx;
+  //     }
+  //     else
+  //       d += d1;
+  //     putpixel(x, y_cor, color);
+  //   }
+  // }
+// }
+
+
+
+
+
 int main(int argc, char const *argv[])
 {
 	printf("double:%lu\n", sizeof(double));

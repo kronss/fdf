@@ -101,6 +101,7 @@ int						main(int ar, char **av)
 		fdf_error("error");
 	ft_init_block(&block, ft_chrcount(buf, '\n'), res);
 	create_cords_array(&block, 0, 0, buf);
+	create_map(&block);
 	print_map(&block);
 	return (0);
 }

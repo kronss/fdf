@@ -12,11 +12,21 @@
 
 #include "fdf.h"
 
-	int 		key_hook(int key_code, void *param)
+int 		key_hook(int key_code, t_block *block)
 {
-	// printf("key code is: [%d]\n", key_code);
-	if (key_code == 53)
-		exit(0);
+	printf("key code is: [%d]\n", key_code);
+	key_code == 53 ? exit(0) : 0;
+	mlx_destroy_image(block->mlx, block->img);
+	mlx_clear_window(block->mlx, block->win);
+	create_img(block);
+	key_code == 91 ? turn_arround_x(block, -M_PI / 12) : 0;
+	key_code == 84 ? turn_arround_x(block, M_PI / 12) : 0;
+	key_code == 86 ? turn_arround_y(block, M_PI / 12) : 0;
+	key_code == 88 ? turn_arround_y(block, -M_PI / 12) : 0;
+	key_code == 89 ? turn_arround_z(block, M_PI / 12) : 0;
+	key_code == 92 ? turn_arround_z(block, -M_PI / 12) : 0;
+	key_code == 87 ? reset_cord(block) : 0;
+	print_map(block);
 	return (0);
 }
 
@@ -92,13 +102,32 @@ void            dda_line_x(t_block *block, int y, int x)
 
     /* Output: -----------------------*/
     i = 0;
-    while (i <= L)
+
+    // void		draw(t_block *block, int *x_ar, int *y_ar, int L)
     {
-        j = ((x_ar[i] + 500) * 4) + ((y_ar[i] + 500) * 1000 * 4);
-        block->ptr[j] = 255U; // blue
+    	int i;
+
+    	i = 0;
+    	while (i <= L)
+    	{
+        j = ((roundf(x_ar[i] + 500)) * 4) + (roundf((y_ar[i] + 500)) * block->size_line);
+	block->ptr[j] = 255U; // blue
         block->ptr[j + 1] = 255U; // green
         block->ptr[j + 2] = 255U; // red
         // mlx_pixel_put(block->mlx, block->win, roundf(x_ar[i]), roundf(y_ar[i]), 0xffffff);
+        i++;
+        // y++;
+   		}
+
+    }
+
+    while (i <= L)  // add limmit
+    {
+        j = ((roundf(x_ar[i] + 500)) * 4) + (roundf((y_ar[i] + 500)) * block->size_line);
+        block->ptr[j] = (block->cord)[y][x].color % 256; // blue
+        block->ptr[j + 1] = ((block->cord)[y][x].color / 256) % 256; // green
+        block->ptr[j + 2] = ((block->cord)[y][x].color / 256 / 256) % 256; // red
+        // block->ptr[j + 3] = (block->cord)[y][x].color / 256 / 256 / 256; // transparansy
         i++;
         // y++;
     }
@@ -144,10 +173,11 @@ void dda_line_y(t_block *block, int y, int x)
     i = 0;
     while (i <= L)
     {
-        j = ((x_ar[i] + 500) * 4) + ((y_ar[i] + 500) * 1000 * 4);
-        block->ptr[j] = 255U;			// blue
-        block->ptr[j + 1] = 255U;		// green
-        block->ptr[j + 2] = 255U;		// red
+        j = ((roundf(x_ar[i]) + 500) * 4) + ((roundf(y_ar[i] + 500)) * block->size_line);
+        block->ptr[j] = (block->cord)[y][x].color % 256; // blue
+        block->ptr[j + 1] = ((block->cord)[y][x].color / 256) % 256; // green
+        block->ptr[j + 2] = ((block->cord)[y][x].color / 256 / 256) % 256; // red
+        // block->ptr[j + 3] = (block->cord)[y][x].color / 256 / 256 / 256; // transparansy
         i++;
     }
     /* -------------------------------*/
@@ -158,13 +188,12 @@ void				print_map(t_block *block)
 	int x;
 	int y = 0;
 
-    block->mlx = mlx_init();
-	block->win = mlx_new_window(block->mlx , 1000, 1000, "fdf"); // x , y
-    block->img = mlx_new_image(block->mlx, 1000, 1000);
-    block->ptr = mlx_get_data_addr(block->img, &block->bits_per_pixel, &block->size_line, &block->endian);
+	// turn_arround_x(block, -M_PI / 5);
+	// turn_arround_y(block, -M_PI / 5);
+	// turn_arround_z(block, M_PI / 5);
 	while (y < (block->y_max))
 	{
-		x = 0;
+		x = 0 ;
 		while (x < (block->x_max) && (x + 1) < (block->x_max))
 		{
 			dda_line_x(block, y , x);
@@ -178,10 +207,17 @@ void				print_map(t_block *block)
 		}
 		y++;
 	}
-    mlx_put_image_to_window(block->mlx, block->win, block->img, 0, 0);
-	mlx_key_hook(block->win, key_hook, 0);
+	mlx_put_image_to_window(block->mlx, block->win, block->img, 0, 0);
+	mlx_key_hook(block->win, key_hook , block);
+
+
 	// mlx_mouse_hook(block->win, mouse_hook, 0);
 	// mlx_expose_hook(block->win, expose_hook, 0);
 	// mlx_loop_hook(block->win, loop_hook, 0);
 	mlx_loop(block->mlx);
 }
+
+
+
+
+

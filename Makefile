@@ -21,7 +21,10 @@ OBJECT = ./fdf.o \
 	./usage.o \
 	./fdf_error.o \
 	./create_cords_array.o \
-	./print_map.o
+	./print_map.o \
+	./turn_arround_x.o \
+	./create_map.o \
+	./reset_cord.o
 
 .PHONY: all clean fclean re
 
