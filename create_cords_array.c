@@ -14,9 +14,9 @@
 
 static void			create_cords(int x, int y, char **buf, t_block *block)
 {
-	((*block).cord[y][x]).y = (double)((y * 10) - ((*block).y_max * 10) / 2);
-	((*block).cord[y][x]).x = (double)((x * 10) - ((*block).x_max * 10) / 2);
-	((*block).cord[y][x]).z = (double)ft_atoi_shift_pointer(buf) * 10;
+	((*block).cord[y][x]).y = (double)((y * 2) - ((*block).y_max * 2) / 2);
+	((*block).cord[y][x]).x = (double)((x * 2) - ((*block).x_max * 2) / 2);
+	((*block).cord[y][x]).z = (double)ft_atoi_shift_pointer(buf) * 2;
 	if (**buf == ',')
 	{
 		(*buf)++;

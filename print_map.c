@@ -20,61 +20,50 @@ int 		key_hook(int key_code, t_block *block)
 	mlx_clear_window(block->mlx, block->win);
 	create_img(block);
 	key_code == 91 ? turn_arround_x(block, -M_PI / 12) : 0;
-	key_code == 84 ? turn_arround_x(block, M_PI / 12) : 0;
+	key_code == 87 ? turn_arround_x(block, M_PI / 12) : 0;
 	key_code == 86 ? turn_arround_y(block, M_PI / 12) : 0;
 	key_code == 88 ? turn_arround_y(block, -M_PI / 12) : 0;
 	key_code == 89 ? turn_arround_z(block, M_PI / 12) : 0;
 	key_code == 92 ? turn_arround_z(block, -M_PI / 12) : 0;
-	key_code == 87 ? reset_cord(block) : 0;
+	key_code == 82 ? reset_cord(block) : 0;
+	key_code == 69 ? zoom(block, 1.5) : 0;
+	key_code == 78 ? zoom(block, 0.75) : 0;
 	print_map(block);
 	return (0);
 }
 
-// int 		mouse_hook(int mouse_code, void *param)
-// {
-// 	printf("mose code is: [%d]\n", mouse_code);
-// 	return (0);
-// }
-
-// int expose_hook(int expose_code, void *param)
-// {
-// 	printf("expose_hook is: [%d]\n", expose_code);
-// 	return (0);
-// }
-
-// int loop_hook(int loop_code, void *param)⁄€‹
-// {
-// 	printf("loop_hook is: [%d]\n", loop_code);
-// 	return (0);
-// }
-// double					get_double(char *line)
-// {
-// 	char *tmp;
-
-// 	tmp = line;
-// 	while (*tmp != '\0')
-// 	{
-
-// 	}
-// }
-
-int         ft_max(int a, int b)
+void		draw(t_block *block, int y, int x, int L)
 {
-    return ((a > b) ? (a) : (b));
+	int i;
+	int j;
+	int x_limit;
+	int y_limit;
+
+	i = 0;
+    while (i <= L)  // add limmit
+	{
+		x_limit = (roundf((block->x_ar)[i] + 500)) * 4;
+		y_limit = (roundf(((block->y_ar)[i] + 500)) * 4000);
+		j = x_limit + y_limit;
+		if (0 <= j && j < 3999997 && 0 <= x_limit && x_limit < 3997) // && 0 <= y_limit && y_limit < 3996000)
+		{
+			block->ptr[j] = (block->cord)[y][x].color % 256; // blue
+			block->ptr[j + 1] = ((block->cord)[y][x].color / 256) % 256; // green
+			block->ptr[j + 2] = ((block->cord)[y][x].color / 256 / 256) % 256; // red
+			// block->ptr[j + 3] = (block->cord)[y][x].color / 256 / 256 / 256; // transparansy
+		}
+		i++;
+    }
+
 }
-
-
 
 void            dda_line_x(t_block *block, int y, int x)
 {
     int        i, L, x_start, y_start, x_end, y_end;
-    double    dX, dY, x_ar[1000], y_ar[1000];
+    double    dX, dY;
     int j;
 
-    // printf("--y: %f\n", ((block->cord)[y][x]).y);
-    // printf("--x: %f\n", ((block->cord)[y][x]).x);
     static int pp = 0;
-
     x_start = roundf(((block->cord)[y][x]).x);     //x1);
     y_start = roundf(((block->cord)[y][x]).y);     //y1);
     x_end = roundf(((block->cord)[y][x + 1]).x);   //x2);
@@ -88,56 +77,43 @@ void            dda_line_x(t_block *block, int y, int x)
     dX = (((block->cord)[y][x + 1]).x - ((block->cord)[y][x]).x) / L;
     dY = (((block->cord)[y][x + 1]).y - ((block->cord)[y][x]).y) / L;
     i = 0;
-    x_ar[i] = ((block->cord)[y][x]).x;
-    y_ar[i] = ((block->cord)[y][x]).y;
+    (block->x_ar)[i] = ((block->cord)[y][x]).x;
+    (block->y_ar)[i] = ((block->cord)[y][x]).y;
     i++;
     while (i < L)
     {
-        x_ar[i] = x_ar[i - 1] + dX;
-        y_ar[i] = y_ar[i - 1] + dY;
+        (block->x_ar)[i] = (block->x_ar)[i - 1] + dX;
+        (block->y_ar)[i] = (block->y_ar)[i - 1] + dY;
         i++;
     }
-    x_ar[i] = ((block->cord)[y][x + 1]).x;
-    y_ar[i] = ((block->cord)[y][x + 1]).y;
+    (block->x_ar)[i] = ((block->cord)[y][x + 1]).x;
+    (block->y_ar)[i] = ((block->cord)[y][x + 1]).y;
 
     /* Output: -----------------------*/
+    draw(block, y, x, L);
     i = 0;
-
-    // void		draw(t_block *block, int *x_ar, int *y_ar, int L)
-    {
-    	int i;
-
-    	i = 0;
-    	while (i <= L)
-    	{
-        j = ((roundf(x_ar[i] + 500)) * 4) + (roundf((y_ar[i] + 500)) * block->size_line);
-	block->ptr[j] = 255U; // blue
-        block->ptr[j + 1] = 255U; // green
-        block->ptr[j + 2] = 255U; // red
-        // mlx_pixel_put(block->mlx, block->win, roundf(x_ar[i]), roundf(y_ar[i]), 0xffffff);
-        i++;
-        // y++;
-   		}
-
-    }
-
-    while (i <= L)  // add limmit
-    {
-        j = ((roundf(x_ar[i] + 500)) * 4) + (roundf((y_ar[i] + 500)) * block->size_line);
-        block->ptr[j] = (block->cord)[y][x].color % 256; // blue
-        block->ptr[j + 1] = ((block->cord)[y][x].color / 256) % 256; // green
-        block->ptr[j + 2] = ((block->cord)[y][x].color / 256 / 256) % 256; // red
-        // block->ptr[j + 3] = (block->cord)[y][x].color / 256 / 256 / 256; // transparansy
-        i++;
-        // y++;
-    }
+ //    while (i <= L)  // add limmit
+	// {
+	// 	j = ((roundf((block->x_ar)[i] + 500)) * 4) + (roundf(((block->y_ar)[i] + 500)) * block->size_line);
+	// 	if (0 <= j && j < 3999997)
+	// 	{
+	// 		block->ptr[j] = (block->cord)[y][x].color % 256; // blue
+	// 		block->ptr[j + 1] = ((block->cord)[y][x].color / 256) % 256; // green
+	// 		block->ptr[j + 2] = ((block->cord)[y][x].color / 256 / 256) % 256; // red
+	// 		// block->ptr[j + 3] = (block->cord)[y][x].color / 256 / 256 / 256; // transparansy
+	// 	}
+	// 	i++;
+	// 	// y++;
+ //    }
     /* -------------------------------*/
 }
+
+
 
 void dda_line_y(t_block *block, int y, int x)
 {
     int        i, L, x_start, y_start, x_end, y_end;
-    double    dX, dY, x_ar[1000], y_ar[1000];
+    double    dX, dY;
     // printf("--y: %f\n", ((block->cord)[y][x]).y);
     // printf("--x: %f\n", ((block->cord)[y][x]).x);
     static int pp = 0;
@@ -157,29 +133,33 @@ void dda_line_y(t_block *block, int y, int x)
     dX = (((block->cord)[y + 1][x]).x - ((block->cord)[y][x]).x) / L;
     dY = (((block->cord)[y + 1][x]).y - ((block->cord)[y][x]).y) / L;
     i = 0;
-    x_ar[i] = ((block->cord)[y][x]).x;
-    y_ar[i] = ((block->cord)[y][x]).y;
+    (block->x_ar)[i] = ((block->cord)[y][x]).x;
+    (block->y_ar)[i] = ((block->cord)[y][x]).y;
     i++;
     while (i < L)
     {
-        x_ar[i] = x_ar[i - 1] + dX;
-        y_ar[i] = y_ar[i - 1] + dY;
+        (block->x_ar)[i] = (block->x_ar)[i - 1] + dX;
+        (block->y_ar)[i] = (block->y_ar)[i - 1] + dY;
         i++;
     }
-    x_ar[i] = ((block->cord)[y + 1][x]).x;
-    y_ar[i] = ((block->cord)[y + 1][x]).y;
+    (block->x_ar)[i] = ((block->cord)[y + 1][x]).x;
+    (block->y_ar)[i] = ((block->cord)[y + 1][x]).y;
 
     /* Output: -----------------------*/
-    i = 0;
-    while (i <= L)
-    {
-        j = ((roundf(x_ar[i]) + 500) * 4) + ((roundf(y_ar[i] + 500)) * block->size_line);
-        block->ptr[j] = (block->cord)[y][x].color % 256; // blue
-        block->ptr[j + 1] = ((block->cord)[y][x].color / 256) % 256; // green
-        block->ptr[j + 2] = ((block->cord)[y][x].color / 256 / 256) % 256; // red
-        // block->ptr[j + 3] = (block->cord)[y][x].color / 256 / 256 / 256; // transparansy
-        i++;
-    }
+    draw(block, y, x, L);
+  //   i = 0;
+  //   while (i <= L)
+  //   {
+		// j = ((roundf((block->x_ar)[i]) + 500) * 4) + ((roundf((block->y_ar)[i] + 500)) * block->size_line);
+		// if (0 <= j && j < 3999997)
+		// {
+		// 	block->ptr[j] = (block->cord)[y][x].color % 256; // blue
+		// 	block->ptr[j + 1] = ((block->cord)[y][x].color / 256) % 256; // green
+		// 	block->ptr[j + 2] = ((block->cord)[y][x].color / 256 / 256) % 256; // red
+		// 	// block->ptr[j + 3] = (block->cord)[y][x].color / 256 / 256 / 256; // transparansy
+		// }
+		// i++;
+  //   }
     /* -------------------------------*/
 }
 

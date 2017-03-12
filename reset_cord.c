@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-void		incrs_step(t_block *block)
+void		zoom(t_block *block, double zoom)
 {
 	int y;
 	int x;
@@ -23,17 +23,15 @@ void		incrs_step(t_block *block)
 		x = 0;
 		while (x < block->x_max)
 		{
-			((*block).cord[y][x]).y = ((*block).cord[y][x]).y_res;
-			((*block).cord[y][x]).x = ((*block).cord[y][x]).x_res;
-			((*block).cord[y][x]).z = ((*block).cord[y][x]).z_res;
-			((*block).cord[y][x]).color = ((*block).cord[y][x]).color_res;
+			((*block).cord[y][x]).y = ((*block).cord[y][x]).y * zoom;
+			((*block).cord[y][x]).x = ((*block).cord[y][x]).x * zoom;
+			((*block).cord[y][x]).z = ((*block).cord[y][x]).z * zoom;
 			x++;
 		}
 		y++;
 	}
 
 }
-
 
 void		reset_cord(t_block *block)
 {

@@ -64,15 +64,24 @@ static void					join_to_buf(char **buf, char **line)
 
 static void				ft_init_block(t_block *block, int y_max, int res)
 {
+	int i;
+
+	i = 0;
 	block->mlx = NULL;
 	block->win = NULL;
 	block->res = res;
 	block->y_max = y_max;
 	block->x_max = res / y_max;
 	block->cord = NULL;
-	block->zoom = 30;
-	block->min_win_y = (block->y_max * block->zoom) + 200;
-	block->min_win_x = (block->x_max * block->zoom) + 200;
+	while (i < 1000)
+	{
+		block->x_ar[i] = 0;
+		block->y_ar[i] = 0;
+		i++;
+	}
+	// block->zoom = 30;
+	// block->min_win_y = (block->y_max * block->zoom) + 200;
+	// block->min_win_x = (block->x_max * block->zoom) + 200;
 	// block->
 	// block->
 }

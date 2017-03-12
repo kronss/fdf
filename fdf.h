@@ -66,15 +66,20 @@ typedef	struct		s_block
 	int				bits_per_pixel;
 	int				size_line;
 	int				endian;
+	double			x_ar[10000];
+	double			y_ar[10000];
+
+
+
 
 
 	int				res;
 	int				y_max;
 	int				x_max;
 	t_fdf_cord 		**cord;
-	int				min_win_y;
-	int				min_win_x;
-	int				zoom;
+	// int				min_win_y;
+	// int				min_win_x;
+	// int				zoom;
 
 }					t_block;
 
@@ -95,5 +100,6 @@ void		turn_arround_y(t_block *block, double angl);
 void		turn_arround_x(t_block *block, double angl);
 void		turn_arround_z(t_block *block, double angl);
 void		reset_cord(t_block *block);
+void		zoom(t_block *block, double zoom);
 
 #endif
