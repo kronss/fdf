@@ -14,11 +14,12 @@
 
 int 		key_hook(int key_code, t_block *block)
 {
+	// static int z = 0;
 	printf("key code is: [%d]\n", key_code);
 	key_code == 53 ? exit(0) : 0;
-	mlx_destroy_image(block->mlx, block->img);
-	mlx_clear_window(block->mlx, block->win);
-	create_img(block);
+	// mlx_destroy_image(block->mlx, block->img);
+	// mlx_clear_window(block->mlx, block->win);
+	// create_img(block);
 	key_code == 91 ? turn_arround_x(block, -M_PI / 12) : 0;
 	key_code == 87 ? turn_arround_x(block, M_PI / 12) : 0;
 	key_code == 86 ? turn_arround_y(block, M_PI / 12) : 0;
@@ -26,9 +27,9 @@ int 		key_hook(int key_code, t_block *block)
 	key_code == 89 ? turn_arround_z(block, M_PI / 12) : 0;
 	key_code == 92 ? turn_arround_z(block, -M_PI / 12) : 0;
 	key_code == 82 ? reset_cord(block) : 0;
-	key_code == 69 ? zoom(block, 1.5) : 0;
-	key_code == 78 ? zoom(block, 0.75) : 0;
-	print_map(block);
+	key_code == 69 ? zoom(block, 1.1) : 0;
+	key_code == 78 ? zoom(block, 0.9) : 0;
+	// print_map(block);
 	return (0);
 }
 
@@ -72,11 +73,14 @@ void            dda_line_x(t_block *block, int y, int x)
     pp++;
     // printf("y: %d\n", y_end - y_start);
     // printf("x: %d\n", x_end - x_start);
+
     L = ft_max(ABS(x_end - x_start), ABS(y_end - y_start));
+    L = L > 990 ? 990 : L;
     // printf("L == %d\n======\n", L);
     dX = (((block->cord)[y][x + 1]).x - ((block->cord)[y][x]).x) / L;
     dY = (((block->cord)[y][x + 1]).y - ((block->cord)[y][x]).y) / L;
     i = 0;
+    
     (block->x_ar)[i] = ((block->cord)[y][x]).x;
     (block->y_ar)[i] = ((block->cord)[y][x]).y;
     i++;
@@ -129,6 +133,7 @@ void dda_line_y(t_block *block, int y, int x)
     // printf("y: %d\n", y_end - y_start);
     // printf("x: %d\n", x_end - x_start);
     L = ft_max(ABS(x_end - x_start), ABS(y_end - y_start));
+    L = L > 990 ? 990 : L; 
     // printf("L == %d\n======\n", L);
     dX = (((block->cord)[y + 1][x]).x - ((block->cord)[y][x]).x) / L;
     dY = (((block->cord)[y + 1][x]).y - ((block->cord)[y][x]).y) / L;
@@ -188,13 +193,13 @@ void				print_map(t_block *block)
 		y++;
 	}
 	mlx_put_image_to_window(block->mlx, block->win, block->img, 0, 0);
-	mlx_key_hook(block->win, key_hook , block);
+	mlx_hook(block->win, 2, 5, key_hook , block);
 
 
 	// mlx_mouse_hook(block->win, mouse_hook, 0);
 	// mlx_expose_hook(block->win, expose_hook, 0);
 	// mlx_loop_hook(block->win, loop_hook, 0);
-	mlx_loop(block->mlx);
+	
 }
 
 

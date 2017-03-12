@@ -22,5 +22,6 @@ void			create_map(t_block *block)
 {
 	block->mlx = mlx_init();
 	block->win = mlx_new_window(block->mlx , 1000, 1000, "fdf"); // x , y
+	
 	create_img(block);
 }

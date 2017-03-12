@@ -47,9 +47,11 @@ typedef	struct	s_fdf_cord
 	double		x;
 	double		y;
 	double		z;
+
 	double		x_res;
 	double		y_res;
 	double		z_res;
+
 	int			color;
 	int			color_res;
 }				t_fdf_cord;
@@ -58,7 +60,8 @@ typedef	struct		s_block
 {
 	void			*mlx;
 	void			*win;
-
+	int				y_max;
+	int				x_max;
 
 	void			*img;
 	char 			*ptr;
@@ -66,16 +69,16 @@ typedef	struct		s_block
 	int				bits_per_pixel;
 	int				size_line;
 	int				endian;
-	double			x_ar[10000];
-	double			y_ar[10000];
+	double			x_ar[1000];
+	double			y_ar[1000];
 
 
 
 
 
 	int				res;
-	int				y_max;
-	int				x_max;
+	// int				y_max;
+	// int				x_max;
 	t_fdf_cord 		**cord;
 	// int				min_win_y;
 	// int				min_win_x;

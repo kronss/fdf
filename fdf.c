@@ -71,6 +71,7 @@ static void				ft_init_block(t_block *block, int y_max, int res)
 	block->win = NULL;
 	block->res = res;
 	block->y_max = y_max;
+	printf("%d\n", block->y_max);
 	block->x_max = res / y_max;
 	block->cord = NULL;
 	while (i < 1000)
@@ -112,5 +113,6 @@ int						main(int ar, char **av)
 	create_cords_array(&block, 0, 0, buf);
 	create_map(&block);
 	print_map(&block);
+	mlx_loop(block.mlx);
 	return (0);
 }

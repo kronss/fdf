@@ -19,9 +19,9 @@ void		turn_arround_y(t_block *block, double angl)
 	int		y;
 	int		x;
 
-	// mlx_destroy_image(block->mlx, block->img);
-	// mlx_clear_window(block->mlx, block->win);
-	// create_img(block);
+	mlx_destroy_image(block->mlx, block->img);
+	mlx_clear_window(block->mlx, block->win);
+	create_img(block);
 	y = 0;
 	while (y < block->y_max)
 	{
@@ -36,7 +36,7 @@ void		turn_arround_y(t_block *block, double angl)
 		}
 		y++;
 	}
-	// print_map(block);
+	print_map(block);
 }
 
 void		turn_arround_z(t_block *block, double angl)
@@ -46,9 +46,9 @@ void		turn_arround_z(t_block *block, double angl)
 	int		y;
 	int		x;
 
-	// mlx_destroy_image(block->mlx, block->img);
-	// mlx_clear_window(block->mlx, block->win);
-	// create_img(block);	
+	mlx_destroy_image(block->mlx, block->img);
+	mlx_clear_window(block->mlx, block->win);
+	create_img(block);	
 	y = 0;
 	while (y < block->y_max)
 	{
@@ -63,7 +63,7 @@ void		turn_arround_z(t_block *block, double angl)
 		}
 		y++;
 	}
-	// print_map(block);
+	print_map(block);
 }
 
 void		turn_arround_x(t_block *block, double angl)
@@ -75,9 +75,9 @@ void		turn_arround_x(t_block *block, double angl)
 
 
 	
-	// mlx_destroy_image(block->mlx, block->img);
-	// mlx_clear_window(block->mlx, block->win);
-	// create_img(block);
+	mlx_destroy_image(block->mlx, block->img);
+	mlx_clear_window(block->mlx, block->win);
+	create_img(block);
 	y = 0;
 	while (y < block->y_max)
 	{
@@ -92,5 +92,5 @@ void		turn_arround_x(t_block *block, double angl)
 		}
 		y++;
 	}
-	// print_map(block);
+	print_map(block);
 }
