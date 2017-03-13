@@ -10,7 +10,70 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+**	all movent along any cord
+*/
+
+
 #include "fdf.h"
+
+
+void		move_along_y(t_block *block, double shift)
+{
+	int y;
+	int x;
+	// printf("------%d\n", block->y_max);
+
+	mlx_destroy_image(block->mlx, block->img);
+	mlx_clear_window(block->mlx, block->win);
+	create_img(block);
+	// zoom > 0.0 ? (*z)++ : (*z)--;
+	y = 0;
+	while (y < block->y_max)
+	{
+		x = 0;
+		while (x < block->x_max)
+		{
+			((*block).cord[y][x]).y = ((*block).cord[y][x]).y + shift;
+			// ((*block).cord[y][x]).x = ((*block).cord[y][x]).x + shift;
+			// ((*block).cord[y][x]).z = ((*block).cord[y][x]).z + shift;
+			x++;
+		}
+		y++;
+	}
+	print_map(block);
+	// printf("y %f\n", ((*block).cord[block->y_max - 1][block->x_max - 1]).y);
+	// printf("x %f\n", ((*block).cord[block->y_max - 1][block->x_max - 1]).x);
+}
+
+void		move_along_x(t_block *block, double shift)
+{
+	int y;
+	int x;
+	// printf("------%d\n", block->y_max);
+
+	mlx_destroy_image(block->mlx, block->img);
+	mlx_clear_window(block->mlx, block->win);
+	create_img(block);
+	// zoom > 0.0 ? (*z)++ : (*z)--;
+	y = 0;
+	while (y < block->y_max)
+	{
+		x = 0;
+		while (x < block->x_max)
+		{
+			// ((*block).cord[y][x]).y = ((*block).cord[y][x]).y + shift;
+			((*block).cord[y][x]).x = ((*block).cord[y][x]).x + shift;
+			// ((*block).cord[y][x]).z = ((*block).cord[y][x]).z + shift;
+			x++;
+		}
+		y++;
+	}
+	print_map(block);
+	// printf("y %f\n", ((*block).cord[block->y_max - 1][block->x_max - 1]).y);
+	// printf("x %f\n", ((*block).cord[block->y_max - 1][block->x_max - 1]).x);
+}
+
 
 void		turn_arround_y(t_block *block, double angl)
 {

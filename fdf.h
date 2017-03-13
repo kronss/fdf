@@ -53,8 +53,12 @@ typedef	struct	s_fdf_cord
 	double		z_res;
 
 	int			color;
+	// int			color_white;
 	int			color_res;
 }				t_fdf_cord;
+
+
+
 
 typedef	struct		s_block
 {
@@ -69,20 +73,21 @@ typedef	struct		s_block
 	int				bits_per_pixel;
 	int				size_line;
 	int				endian;
-	double			x_ar[1000];
-	double			y_ar[1000];
-
+	double			x_ar[1200];
+	double			y_ar[1200];
+	// int				y_max;
+	// int				x_max;
 
 
 
 
 	int				res;
-	// int				y_max;
-	// int				x_max;
+	int				zoom;
+
 	t_fdf_cord 		**cord;
 	// int				min_win_y;
 	// int				min_win_x;
-	// int				zoom;
+	
 
 }					t_block;
 
@@ -104,5 +109,8 @@ void		turn_arround_x(t_block *block, double angl);
 void		turn_arround_z(t_block *block, double angl);
 void		reset_cord(t_block *block);
 void		zoom(t_block *block, double zoom);
+void		move_along_y(t_block *block, double shift);
+void		move_along_x(t_block *block, double shift);
+void		color_change(t_block *block, char a);
 
 #endif

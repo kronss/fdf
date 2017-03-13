@@ -33,7 +33,6 @@ static void					ft_validate(char *line, int *res)
 		}
 		line++;
 	}
-
 	if (!check)
 		check = (*res);
 	if (*res % check != 0)
@@ -71,7 +70,7 @@ static void				ft_init_block(t_block *block, int y_max, int res)
 	block->win = NULL;
 	block->res = res;
 	block->y_max = y_max;
-	printf("%d\n", block->y_max);
+		printf("%d\n", res);
 	block->x_max = res / y_max;
 	block->cord = NULL;
 	while (i < 1000)
@@ -80,7 +79,9 @@ static void				ft_init_block(t_block *block, int y_max, int res)
 		block->y_ar[i] = 0;
 		i++;
 	}
-	// block->zoom = 30;
+	block->zoom = 2;
+	if (res < 500)
+		block->zoom = 30;
 	// block->min_win_y = (block->y_max * block->zoom) + 200;
 	// block->min_win_x = (block->x_max * block->zoom) + 200;
 	// block->
