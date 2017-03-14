@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atohex_shift_pointer.c                          :+:      :+:    :+:   */
+/*   ft_atohex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ochayche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -49,28 +49,29 @@ static int			size_hexa(char *tmp)
 	return (i);
 }
 
-int					ft_atohex_shift_pointer(char **str)
+int					ft_atohex(char *str)
 {
 	int res;
 	int power;
+	int i;
 
 	res = 0;
-	if ((**str == '0') && ((*str)[1] == 'x' || (*str)[1] == 'X'))
+	if ((str[0] == '0') && (str[1] == 'x' || str[1] == 'X'))
 	{
-		(*str) += 2;
-		power = size_hexa(*str);
-		while (('0' <= **str && **str <= '9') ||
-		('a' <= **str && **str <= 'f') ||
-		('A' <= **str && **str <= 'F'))
+		i = 2;
+		power = size_hexa(&str[i]);
+		while (('0' <= str[i] && str[i] <= '9') ||
+		('a' <= str[i] && str[i] <= 'f') ||
+		('A' <= str[i] && str[i] <= 'F'))
 		{
 			power--;
-			if ('0' <= **str && **str <= '9')
-				res = (res + (**str - '0') * ft_iter_power(16, power));
-			else if ('a' <= **str && **str <= 'f')
-				res = (res + (**str - 'a' + 10) * ft_iter_power(16, power));
-			else if ('A' <= **str && **str <= 'F')
-				res = (res + (**str - 'A' + 10) * ft_iter_power(16, power));
-			(*str)++;
+			if ('0' <= str[i] && str[i] <= '9')
+				res = (res + (str[i] - '0') * ft_iter_power(16, power));
+			else if ('a' <= str[i] && str[i] <= 'f')
+				res = (res + (str[i] - 'a' + 10) * ft_iter_power(16, power));
+			else if ('A' <= str[i] && str[i] <= 'F')
+				res = (res + (str[i] - 'A' + 10) * ft_iter_power(16, power));
+			i++;
 		}
 	}
 	return (res);

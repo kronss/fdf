@@ -20,8 +20,6 @@
 
 # define ABS(x) ((x < 0) ? -(x) : (x))
 
-# include <stdio.h> //dell
-
 typedef struct		s_list
 {
 	void			*content;
@@ -102,7 +100,8 @@ char				*ft_strupcase(char *str);
 void				ft_swap(int *a, int *b);
 size_t				ft_wrdcount_del(char const *s, char c);
 int					ft_chrcount(char *str, char c);
-int 				ft_atohex_shift_pointer(char **str);
+int					ft_atohex_shift_pointer(char **str);
+int					ft_atohex(char *str);
 int					ft_max(int a, int b);
 
 #endif

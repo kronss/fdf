@@ -12,59 +12,42 @@
 
 #include "fdf.h"
 
-static void			create_cords(int x, int y, char **buf, t_block *block)
+static void			create_cords(int x, int y, char **buf, t_block *b)
 {
-	((*block).cord[y][x]).y = (double)((y * block->zoom) - ((*block).y_max * block->zoom) / 2);
-	((*block).cord[y][x]).x = (double)((x * block->zoom) - ((*block).x_max * block->zoom) / 2);
-	((*block).cord[y][x]).z = (double)ft_atoi_shift_pointer(buf) * block->zoom;
+	((*b).cord[y][x]).y = (double)((y * b->zoom) - ((*b).y_max * b->zoom) / 2);
+	((*b).cord[y][x]).x = (double)((x * b->zoom) - ((*b).x_max * b->zoom) / 2);
+	((*b).cord[y][x]).z = (double)ft_atoi_shift_pointer(buf) * b->zoom;
 	if (**buf == ',')
 	{
 		(*buf)++;
-		((*block).cord[y][x]).color = ft_atohex_shift_pointer(buf);
+		((*b).cord[y][x]).color = ft_atohex_shift_pointer(buf);
 	}
 	else
-		((*block).cord[y][x]).color = 16777215;
-	((*block).cord[y][x]).y_res = ((*block).cord[y][x]).y;
-	((*block).cord[y][x]).x_res = ((*block).cord[y][x]).x;
-	((*block).cord[y][x]).z_res = ((*block).cord[y][x]).z;
-	((*block).cord[y][x]).color_res = ((*block).cord[y][x]).color;
+		((*b).cord[y][x]).color = 16777215;
+	((*b).cord[y][x]).y_res = ((*b).cord[y][x]).y;
+	((*b).cord[y][x]).x_res = ((*b).cord[y][x]).x;
+	((*b).cord[y][x]).z_res = ((*b).cord[y][x]).z;
+	((*b).cord[y][x]).color_res = ((*b).cord[y][x]).color;
 }
 
-void				create_cords_array(t_block *block, int y, int x, char *buf)
+void				create_cords_array(t_block *b, int y, int x, char *buf)
 {
-	// int i =0;
-	// printf("[%d]\n", cord);
-	
-	if (!((*block).cord = malloc(sizeof(t_fdf_cord *) * ((*block).y_max))))
+	if (!((*b).cord = malloc(sizeof(t_fdf_cord *) * ((*b).y_max))))
 		fdf_error("error");
-	while (y < block->y_max)
+	while (y < b->y_max)
 	{
 		x = 0;
-		if (!(((*block).cord)[y] = malloc(sizeof(t_fdf_cord) * ((*block).x_max))))
+		if (!(((*b).cord)[y] = malloc(sizeof(t_fdf_cord) * ((*b).x_max))))
 			fdf_error("error");
-		while (x < block->x_max)
+		while (x < b->x_max)
 		{
 			if (*buf != ' ' && *buf != '\n' && *buf != '\0')
 			{
-				// ((*block).cord)[y][x] = 
-				// printf("========%d\n", i ++);
-				create_cords(x, y, &buf, block);
-				// printf("========%d\n", i);
-				// 	printf("in y %.1f\n", ((*block).cord[y][x]).y);
-				// 	printf("in x %.1f\n", ((*block).cord[y][x]).x);
-				// 	printf("in z %.1f\n", ((*block).cord[y][x]).z);
-				// 	printf("in col %d\n", ((*block).cord[y][x]).color);
+				create_cords(x, y, &buf, b);
 				x++;
-			}	
+			}
 			buf++;
 		}
-		// (*cord)[y][x] = NULL;
 		y++;
 	}
-	// (*cord)[y] = NULL;
-	// printf("2[%p]\n", cord);
-	// printf("2[%p]\n", *cord);
-	// printf("2[%p]\n", **cord);
-	// printf("2[%p]\n", ***cord);
-	// correct_center_cord(cord, x , y);
 }

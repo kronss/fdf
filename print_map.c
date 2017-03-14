@@ -10,132 +10,141 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+**	b->ptr[j + 0] = (b->cord)[y][x].color % 256; // blue
+**	b->ptr[j + 1] = ((b->cord)[y][x].color / 256) % 256; // green
+**	b->ptr[j + 2] = ((b->cord)[y][x].color / 256 / 256) % 256; // red
+**	b->ptr[j + 3] = (b->cord)[y][x].color / 256 / 256 / 256; // transparansy
+*/
+
 #include "fdf.h"
 
-int 		key_hook(int key_code, t_block *block)
+int			key_hook(int key_code, t_block *b)
 {
-	printf("key code is: [%d]\n", key_code);
+	ft_printf("key code is: [%d]\n", key_code);
 	key_code == 53 ? exit(0) : 0;
-	key_code == 91 ? turn_arround_x(block, -M_PI / 36) : 0;
-	key_code == 87 ? turn_arround_x(block, M_PI / 36) : 0;
-	key_code == 86 ? turn_arround_y(block, M_PI / 36) : 0;
-	key_code == 88 ? turn_arround_y(block, -M_PI / 36) : 0;
-	key_code == 89 ? turn_arround_z(block, M_PI / 36) : 0;
-	key_code == 92 ? turn_arround_z(block, -M_PI / 36) : 0;
-	key_code == 82 ? reset_cord(block) : 0;
-	key_code == 69 ? zoom(block, 1.1) : 0;
-	key_code == 78 ? zoom(block, 0.9) : 0;
-	key_code == 126 ? move_along_y(block, 20) : 0;
-	key_code == 125 ? move_along_y(block, -20) : 0;
-	key_code == 123 ? move_along_x(block, 20) : 0;
-	key_code == 124 ? move_along_x(block, -20) : 0;
-	key_code == 18 ? color_change(block, 1) : 0;
-	key_code == 19 ? color_change(block, 2) : 0;
-	key_code == 20 ? color_change(block, 3) : 0;
-	key_code == 21 ? color_change(block, 4) : 0;
-	key_code == 23 ? color_change(block, 5) : 0;
+	key_code == 91 ? turn_arround_x(b, -M_PI / 36) : 0;
+	key_code == 87 ? turn_arround_x(b, M_PI / 36) : 0;
+	key_code == 86 ? turn_arround_y(b, M_PI / 36) : 0;
+	key_code == 88 ? turn_arround_y(b, -M_PI / 36) : 0;
+	key_code == 89 ? turn_arround_z(b, M_PI / 36) : 0;
+	key_code == 92 ? turn_arround_z(b, -M_PI / 36) : 0;
+	key_code == 82 ? reset_cord(b) : 0;
+	key_code == 69 ? zoom(b, 1.1) : 0;
+	key_code == 78 ? zoom(b, 0.9) : 0;
+	key_code == 126 ? move_along_y(b, 20) : 0;
+	key_code == 125 ? move_along_y(b, -20) : 0;
+	key_code == 123 ? move_along_x(b, 20) : 0;
+	key_code == 124 ? move_along_x(b, -20) : 0;
+	key_code == 18 ? color_change(b, 1) : 0;
+	key_code == 19 ? color_change(b, 2) : 0;
+	key_code == 116 ? color_change(b, 3) : 0;
+	key_code == 121 ? color_change(b, 4) : 0;
+	key_code == 20 ? color_change(b, 5) : 0;
 	return (0);
 }
 
-void		draw(t_block *block, int y, int x, int L)
+void		draw(t_block *b, int y, int x, int l)
 {
-	int i;
-	int j;
-	int x_limit;
-	int y_limit;
+	int		i;
+	int		j;
+	int		x_limit;
+	int		y_limit;
 
 	i = 0;
-	while (i <= L)
+	while (i <= l)
 	{
-		x_limit = (roundf((block->x_ar)[i] + 500)) * 4;
-		y_limit = (roundf(((block->y_ar)[i] + 500)) * 4000);
+		x_limit = (roundf((b->x_ar)[i] + 500)) * 4;
+		y_limit = (roundf(((b->y_ar)[i] + 500)) * 4000);
 		j = x_limit + y_limit;
 		if (0 <= j && j < 3999997 && 0 <= x_limit && x_limit < 3997)
 		{
-			block->ptr[j] = (block->cord)[y][x].color % 256; // blue
-			block->ptr[j + 1] = ((block->cord)[y][x].color / 256) % 256; // green
-			block->ptr[j + 2] = ((block->cord)[y][x].color / 256 / 256) % 256; // red
-			// block->ptr[j + 3] = (block->cord)[y][x].color / 256 / 256 / 256; // transparansy
+			b->ptr[j] = (b->cord)[y][x].color % 256;
+			b->ptr[j + 1] = ((b->cord)[y][x].color / 256) % 256;
+			b->ptr[j + 2] = ((b->cord)[y][x].color / 256 / 256) % 256;
 		}
 		i++;
 	}
 }
 
-void            dda_line_x(t_block *block, int y, int x)
+void		dda_line_x(t_block *b, int y, int x)
 {
 	int		i;
-	int		L;
-	double	dX;
-	double	dY;
-	
-	L = ft_max(ABS(roundf(((block->cord)[y][x + 1]).x) - roundf(((block->cord)[y][x]).x)),
-	ABS(roundf(((block->cord)[y][x + 1]).y) - roundf(((block->cord)[y][x]).y)));
-	L = L > 1190 ? 1190 : L;
-	dX = (((block->cord)[y][x + 1]).x - ((block->cord)[y][x]).x) / L;
-	dY = (((block->cord)[y][x + 1]).y - ((block->cord)[y][x]).y) / L;
+	int		l;
+	double	dx;
+	double	dy;
+
+	l =
+	ft_max(ABS(roundf(((b->cord)[y][x + 1]).x) - roundf(((b->cord)[y][x]).x)),
+	ABS(roundf(((b->cord)[y][x + 1]).y) - roundf(((b->cord)[y][x]).y)));
+	l = l > 1190 ? 1190 : l;
+	dx = (((b->cord)[y][x + 1]).x - ((b->cord)[y][x]).x) / l;
+	dy = (((b->cord)[y][x + 1]).y - ((b->cord)[y][x]).y) / l;
 	i = 0;
-	(block->x_ar)[i] = ((block->cord)[y][x]).x;
-	(block->y_ar)[i] = ((block->cord)[y][x]).y;
+	(b->x_ar)[i] = ((b->cord)[y][x]).x;
+	(b->y_ar)[i] = ((b->cord)[y][x]).y;
 	i++;
-	while (i < L)
+	while (i < l)
 	{
-		(block->x_ar)[i] = (block->x_ar)[i - 1] + dX;
-		(block->y_ar)[i] = (block->y_ar)[i - 1] + dY;
+		(b->x_ar)[i] = (b->x_ar)[i - 1] + dx;
+		(b->y_ar)[i] = (b->y_ar)[i - 1] + dy;
 		i++;
 	}
-	(block->x_ar)[i] = ((block->cord)[y][x + 1]).x;
-	(block->y_ar)[i] = ((block->cord)[y][x + 1]).y;
-	draw(block, y, x, L);
+	(b->x_ar)[i] = ((b->cord)[y][x + 1]).x;
+	(b->y_ar)[i] = ((b->cord)[y][x + 1]).y;
+	draw(b, y, x, l);
 }
 
-void dda_line_y(t_block *block, int y, int x)
+void		dda_line_y(t_block *b, int y, int x)
 {
 	int		i;
-	int		L;
-	double	dX;
-	double	dY;
+	int		l;
+	double	dx;
+	double	dy;
 
-	L = ft_max(ABS(roundf(((block->cord)[y + 1][x]).x) - roundf(((block->cord)[y][x]).x)),
-	ABS(roundf(((block->cord)[y + 1][x]).y) - roundf(((block->cord)[y][x]).y)));
-	L = L > 1190 ? 1190 : L; 
-	dX = (((block->cord)[y + 1][x]).x - ((block->cord)[y][x]).x) / L;
-	dY = (((block->cord)[y + 1][x]).y - ((block->cord)[y][x]).y) / L;
+	l =
+	ft_max(ABS(roundf(((b->cord)[y + 1][x]).x) - roundf(((b->cord)[y][x]).x)),
+	ABS(roundf(((b->cord)[y + 1][x]).y) - roundf(((b->cord)[y][x]).y)));
+	l = l > 1190 ? 1190 : l;
+	dx = (((b->cord)[y + 1][x]).x - ((b->cord)[y][x]).x) / l;
+	dy = (((b->cord)[y + 1][x]).y - ((b->cord)[y][x]).y) / l;
 	i = 0;
-	(block->x_ar)[i] = ((block->cord)[y][x]).x;
-	(block->y_ar)[i] = ((block->cord)[y][x]).y;
+	(b->x_ar)[i] = ((b->cord)[y][x]).x;
+	(b->y_ar)[i] = ((b->cord)[y][x]).y;
 	i++;
-	while (i < L)
+	while (i < l)
 	{
-		(block->x_ar)[i] = (block->x_ar)[i - 1] + dX;
-		(block->y_ar)[i] = (block->y_ar)[i - 1] + dY;
+		(b->x_ar)[i] = (b->x_ar)[i - 1] + dx;
+		(b->y_ar)[i] = (b->y_ar)[i - 1] + dy;
 		i++;
 	}
-	(block->x_ar)[i] = ((block->cord)[y + 1][x]).x;
-	(block->y_ar)[i] = ((block->cord)[y + 1][x]).y;
-	draw(block, y, x, L);
+	(b->x_ar)[i] = ((b->cord)[y + 1][x]).x;
+	(b->y_ar)[i] = ((b->cord)[y + 1][x]).y;
+	draw(b, y, x, l);
 }
 
-void				print_map(t_block *block)
+void		print_map(t_block *b)
 {
 	int x;
-	int y = 0;
+	int y;
 
-	while (y < (block->y_max))
+	y = 0;
+	while (y < (b->y_max))
 	{
-		x = 0 ;
-		while (x < (block->x_max) && (x + 1) < (block->x_max))
+		x = 0;
+		while (x < (b->x_max) && (x + 1) < (b->x_max))
 		{
-			dda_line_x(block, y , x);
+			dda_line_x(b, y, x);
 			x++;
 		}
 		x = 0;
-		while (x < (block->x_max) && (y + 1) < (block->y_max))
+		while (x < (b->x_max) && (y + 1) < (b->y_max))
 		{
-			dda_line_y(block, y , x);
+			dda_line_y(b, y, x);
 			x++;
 		}
 		y++;
 	}
-	mlx_put_image_to_window(block->mlx, block->win, block->img, 0, 0);
-	mlx_hook(block->win, 2, 5, key_hook, block);
+	mlx_put_image_to_window(b->mlx, b->win, b->img, 0, 0);
+	mlx_hook(b->win, 2, 5, key_hook, b);
 }

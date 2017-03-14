@@ -19,9 +19,20 @@
 
 #include "fdf.h"
 
-static void					ft_validate(char *line, int *res)
+static void				ft_color_pararm(char *str, t_block *block)
+{
+	if (*str == '0')
+		block->color_param = ft_atohex(str);
+	else
+		block->color_param = ft_atoi(str);
+}
+
+static void				ft_validate(char *line, int *res)
 {
 	static int check = 0;
+
+	if (check == 0)
+		*res = 0;
 	while (*line != '\0')
 	{
 		if (*line != ' ')
@@ -35,14 +46,14 @@ static void					ft_validate(char *line, int *res)
 	}
 	if (!check)
 		check = (*res);
-	if (*res % check != 0)
+	if (*res % check != 0 || check == 1)
 	{
 		ft_printf("map is not valid =(\n");
 		exit(1);
 	}
 }
 
-static void					join_to_buf(char **buf, char **line)
+static void				join_to_buf(char **buf, char **line)
 {
 	char			*tmp;
 	char			*tmp2;
@@ -63,30 +74,21 @@ static void					join_to_buf(char **buf, char **line)
 
 static void				ft_init_block(t_block *block, int y_max, int res)
 {
-	int i;
-
-	i = 0;
 	block->mlx = NULL;
 	block->win = NULL;
 	block->res = res;
 	block->y_max = y_max;
-		printf("%d\n", res);
 	block->x_max = res / y_max;
 	block->cord = NULL;
-	while (i < 1000)
-	{
-		block->x_ar[i] = 0;
-		block->y_ar[i] = 0;
-		i++;
-	}
-	if (res < 10000 && block->y_max < 100 && block->x_max < 100)
-		block->zoom = 8;
-	else if (res < 900 && block->y_max < 30 && block->x_max < 30)
-		block->zoom = 25;
-	else if (res < 400 && block->y_max < 20 && block->x_max < 20)
-		block->zoom = 40;
+	if (res <= 400 && block->y_max <= 20 && block->x_max <= 20)
+		block->zoom = 35;
+	else if (res <= 10000 && block->y_max <= 100 && block->x_max <= 100)
+		block->zoom = 6;
+	else if (res <= 900 && block->y_max <= 30 && block->x_max <= 30)
+		block->zoom = 20;
 	else
 		block->zoom = 2;
+	block->color_param = 0xffffff;
 }
 
 int						main(int ar, char **av)
@@ -97,13 +99,10 @@ int						main(int ar, char **av)
 	int			fd;
 	int			res;
 
-	line = NULL;
-	buf = NULL;
-	if (ar != 2)
+	if (!(ar == 2 || ar == 3))
 		ft_usage(av[0]);
-	if ((fd = open(av[1] ,O_RDONLY)) == -1)
+	if ((fd = open(av[1], O_RDONLY)) == -1)
 		fdf_error("error");
-	res = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		ft_validate(line, &res);
@@ -112,6 +111,7 @@ int						main(int ar, char **av)
 	if (res == 0 || (get_next_line(fd, &line) == -1))
 		fdf_error("error");
 	ft_init_block(&block, ft_chrcount(buf, '\n'), res);
+	ar == 3 ? ft_color_pararm(av[2], &block) : 0;
 	create_cords_array(&block, 0, 0, buf);
 	create_map(&block);
 	print_map(&block);

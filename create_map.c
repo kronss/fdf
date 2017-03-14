@@ -12,15 +12,16 @@
 
 #include "fdf.h"
 
-void			create_img(t_block *block)
+void			create_img(t_block *b)
 {
-	block->img = mlx_new_image(block->mlx, 1000, 1000);
-	block->ptr = mlx_get_data_addr(block->img, &block->bits_per_pixel, &block->size_line, &block->endian);
+	b->img = mlx_new_image(b->mlx, 1000, 1000);
+	b->ptr = mlx_get_data_addr(b->img, &b->bits_per_pixel,
+	&b->size_line, &b->endian);
 }
 
-void			create_map(t_block *block)
+void			create_map(t_block *b)
 {
-	block->mlx = mlx_init();
-	block->win = mlx_new_window(block->mlx , 1000, 1000, "fdf"); // x , y
-	create_img(block);
+	b->mlx = mlx_init();
+	b->win = mlx_new_window(b->mlx, 1000, 1000, "fdf");
+	create_img(b);
 }

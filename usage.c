@@ -14,6 +14,6 @@
 
 void	ft_usage(char *argv)
 {
-	ft_printf("usage: %s file_name.fdf\n", argv);
+	ft_printf("usage: %s file_name.fdf color(0xffffff)\n", argv);
 	exit(1);
 }
