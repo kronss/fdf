@@ -79,13 +79,14 @@ static void				ft_init_block(t_block *block, int y_max, int res)
 		block->y_ar[i] = 0;
 		i++;
 	}
-	block->zoom = 2;
-	if (res < 500)
-		block->zoom = 30;
-	// block->min_win_y = (block->y_max * block->zoom) + 200;
-	// block->min_win_x = (block->x_max * block->zoom) + 200;
-	// block->
-	// block->
+	if (res < 10000 && block->y_max < 100 && block->x_max < 100)
+		block->zoom = 8;
+	else if (res < 900 && block->y_max < 30 && block->x_max < 30)
+		block->zoom = 25;
+	else if (res < 400 && block->y_max < 20 && block->x_max < 20)
+		block->zoom = 40;
+	else
+		block->zoom = 2;
 }
 
 int						main(int ar, char **av)

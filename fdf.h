@@ -82,7 +82,7 @@ typedef	struct		s_block
 
 
 	int				res;
-	int				zoom;
+	int			zoom;
 
 	t_fdf_cord 		**cord;
 	// int				min_win_y;
