@@ -21,7 +21,6 @@
 
 static int			key_hook(int key_code, t_block *b)
 {
-	ft_printf("key code is: [%d]\n", key_code);
 	key_code == 53 ? exit(0) : 0;
 	key_code == 91 ? turn_arround_x(b, -M_PI / 36) : 0;
 	key_code == 87 ? turn_arround_x(b, M_PI / 36) : 0;

@@ -45,7 +45,7 @@ clean:
 fclean: clean
 	@make fclean -C libft/
 	@make fclean -C ft_printf/
-	rm -rf $(NAME)
+	rm -rf $(NAME) a.out
 
 re: fclean all
 
@@ -53,7 +53,7 @@ bug:
 	gcc -g $(F) $(M) ./fdf.c ./usage.c ./fdf_error.c ./create_cords_array.c ./print_map.c ./turn_arround_x.c ./create_map.c ./reset_cord.c -I minilibx_macos/libmlx.a libft/libft.a ft_printf/libftprintf.a
 
 debug: bug
-	lldb -- a.out
+	lldb -- a.out 123.fdf
 
 %.o: ./%.c
 	$(GCC) $(F) -o $@ -c $< -I ./

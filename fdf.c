@@ -29,17 +29,17 @@ static void				ft_color_pararm(char *str, t_block *block)
 		ft_usage("fdf");
 }
 
-static void				ft_validate(char *line, int *res)
+static int				ft_validate(char *line)
 {
-	static int check = 0;
+	static int		check = 0;
+	int				res;
 
-	if (check == 0)
-		*res = 0;
+	res = 0;
 	while (*line != '\0')
 	{
-		if (*line != ' ')
+		if (ft_strchr_f("0123456789", *line))
 		{
-			(*res)++;
+			res++;
 			while (*line != ' ' && *line != '\0')
 				line++;
 			continue ;
@@ -47,12 +47,13 @@ static void				ft_validate(char *line, int *res)
 		line++;
 	}
 	if (!check)
-		check = (*res);
-	if (*res % check != 0)
+		check = res;
+	if (!res || res % check != 0)
 	{
 		ft_printf("map is not valid =(\n");
 		exit(1);
 	}
+	return (res);
 }
 
 static void				join_to_buf(char **buf, char **line)
@@ -101,14 +102,14 @@ int						main(int ar, char **av)
 	int			fd;
 	int			res;
 
+	res = 0;
 	if (!(ar == 2 || ar == 3))
 		ft_usage(av[0]);
 	if ((fd = open(av[1], O_RDONLY)) == -1)
 		fdf_error("error");
-	res = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		ft_validate(line, &res);
+		res += ft_validate(line);
 		join_to_buf(&buf, &line);
 	}
 	if (res < 2 || (get_next_line(fd, &line) == -1))
