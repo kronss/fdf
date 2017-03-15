@@ -26,7 +26,7 @@ OBJECT = ./fdf.o \
 	./create_map.o \
 	./reset_cord.o
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bug debug
 
 all: $(NAME)
 	@make -C libft/
@@ -36,7 +36,6 @@ $(NAME): $(OBJECT)
 		@make -C libft/
 		@make -C ft_printf/
 		$(GCC) $(F) $(M) -o $(NAME) $(OBJECT) -I minilibx_macos/libmlx.a libft/libft.a ft_printf/libftprintf.a
-
 
 clean:
 	@make clean -C libft/
@@ -51,10 +50,10 @@ fclean: clean
 re: fclean all
 
 bug:
-	gcc -g -lmlx -framework OpenGL -framework Appkit ./fdf.c ./usage.c ./fdf_error.c ./create_cords_array.c ./print_map.c ./turn_arround_x.c ./create_map.c ./reset_cord.c -I minilibx_macos/libmlx.a libft/libft.a ft_printf/libftprintf.a
+	gcc -g $(F) $(M) ./fdf.c ./usage.c ./fdf_error.c ./create_cords_array.c ./print_map.c ./turn_arround_x.c ./create_map.c ./reset_cord.c -I minilibx_macos/libmlx.a libft/libft.a ft_printf/libftprintf.a
 
 debug: bug
-	lldb -- a.out test_1.fdf
+	lldb -- a.out
 
 %.o: ./%.c
 	$(GCC) $(F) -o $@ -c $< -I ./

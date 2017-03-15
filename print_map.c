@@ -19,7 +19,7 @@
 
 #include "fdf.h"
 
-int			key_hook(int key_code, t_block *b)
+static int			key_hook(int key_code, t_block *b)
 {
 	ft_printf("key code is: [%d]\n", key_code);
 	key_code == 53 ? exit(0) : 0;
@@ -44,7 +44,7 @@ int			key_hook(int key_code, t_block *b)
 	return (0);
 }
 
-void		draw(t_block *b, int y, int x, int l)
+static void			draw(t_block *b, int y, int x, int l)
 {
 	int		i;
 	int		j;
@@ -67,7 +67,7 @@ void		draw(t_block *b, int y, int x, int l)
 	}
 }
 
-void		dda_line_x(t_block *b, int y, int x)
+static void			dda_line_x(t_block *b, int y, int x)
 {
 	int		i;
 	int		l;
@@ -95,7 +95,7 @@ void		dda_line_x(t_block *b, int y, int x)
 	draw(b, y, x, l);
 }
 
-void		dda_line_y(t_block *b, int y, int x)
+static void			dda_line_y(t_block *b, int y, int x)
 {
 	int		i;
 	int		l;
@@ -123,7 +123,7 @@ void		dda_line_y(t_block *b, int y, int x)
 	draw(b, y, x, l);
 }
 
-void		print_map(t_block *b)
+void				print_map(t_block *b)
 {
 	int x;
 	int y;

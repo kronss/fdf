@@ -23,8 +23,10 @@ static void				ft_color_pararm(char *str, t_block *block)
 {
 	if (*str == '0')
 		block->color_param = ft_atohex(str);
-	else
+	else if (ft_strchr_f("123456789", *str))
 		block->color_param = ft_atoi(str);
+	else
+		ft_usage("fdf");
 }
 
 static void				ft_validate(char *line, int *res)
@@ -46,7 +48,7 @@ static void				ft_validate(char *line, int *res)
 	}
 	if (!check)
 		check = (*res);
-	if (*res % check != 0 || check == 1)
+	if (*res % check != 0)
 	{
 		ft_printf("map is not valid =(\n");
 		exit(1);
@@ -103,12 +105,13 @@ int						main(int ar, char **av)
 		ft_usage(av[0]);
 	if ((fd = open(av[1], O_RDONLY)) == -1)
 		fdf_error("error");
+	res = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
 		ft_validate(line, &res);
 		join_to_buf(&buf, &line);
 	}
-	if (res == 0 || (get_next_line(fd, &line) == -1))
+	if (res < 2 || (get_next_line(fd, &line) == -1))
 		fdf_error("error");
 	ft_init_block(&block, ft_chrcount(buf, '\n'), res);
 	ar == 3 ? ft_color_pararm(av[2], &block) : 0;
