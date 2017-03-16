@@ -112,7 +112,7 @@ int						main(int ar, char **av)
 		res += ft_validate(line);
 		join_to_buf(&buf, &line);
 	}
-	if (res < 2 || (get_next_line(fd, &line) == -1))
+	if (res < 2 || (get_next_line(fd, &line) == -1) || (close(fd) == -1))
 		fdf_error("error");
 	ft_init_block(&block, ft_chrcount(buf, '\n'), res);
 	ar == 3 ? ft_color_pararm(av[2], &block) : 0;
